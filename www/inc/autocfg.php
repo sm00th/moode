@@ -101,6 +101,9 @@ function autoConfigSettings() {
 		['requires' => ['btname'], 'handler' => 'setSessVarSqlSysCmd', 'cmd' => 'chg-name bluetooth "' . $_SESSION['btname'] . '" "%s"'],
 		['requires' => ['airplayname'], 'handler' => 'setSessVarSql'],
 		['requires' => ['spotifyname'], 'handler' => 'setSessVarSql'],
+		['requires' => ['spotifyclientid'], 'handler' => 'setSessVarSql'],
+		['requires' => ['spotifyclientsecret'], 'handler' => 'setSessVarSql'],
+		['requires' => ['spotifyredirecturl'], 'handler' => 'setSessVarSql'],
 		['requires' => ['squeezelitename'], 'handler' => function($values) {
 			$dbh = sqlConnect();
 			$currentName= sqlQuery("select value from cfg_sl where param='PLAYERNAME'", $dbh)[0]['value'];

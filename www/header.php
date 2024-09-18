@@ -68,6 +68,7 @@
     <script src="js/links.js" defer></script>
     <script src="js/osk.js" defer></script>
     <script src="js/analog-clock.js" defer></script>
+    <script src="spotify/js/spotify.js" defer></script>
 	<!-- endbuild -->
 
     <!-- Playback / Library -->
@@ -132,7 +133,6 @@
 	<!-- Microsoft -->
 	<meta name="msapplication-TileColor" content="#da532c">
 </head>
-
 
 <body onorientationchange="javascript:location.reload(true); void 0;">
 	<!-- ALBUM COVER BACKDROP -->

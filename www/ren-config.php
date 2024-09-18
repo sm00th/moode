@@ -84,6 +84,18 @@ if (isset($_POST['update_spotify_settings'])) {
 		$update = true;
 		phpSession('write', 'spotifyname', $_POST['spotifyname']);
 	}
+	if (isset($_POST['spotifyclientid']) && $_POST['spotifyclientid'] != $_SESSION['spotifyclientid']) {
+		$update = true;
+		phpSession('write', 'spotifyclientid', $_POST['spotifyclientid']);
+	}
+	if (isset($_POST['spotifyclientsecret']) && $_POST['spotifyclientsecret'] != $_SESSION['spotifyclientsecret']) {
+		$update = true;
+		phpSession('write', 'spotifyclientsecret', $_POST['spotifyclientsecret']);
+	}
+	if (isset($_POST['spotifyredirecturl']) && $_POST['spotifyredirecturl'] != $_SESSION['spotifyredirecturl']) {
+		$update = true;
+		phpSession('write', 'spotifyredirecturl', $_POST['spotifyredirecturl']);
+	}
 	if (isset($_POST['spotifysvc']) && $_POST['spotifysvc'] != $_SESSION['spotifysvc']) {
 		$update = true;
 		phpSession('write', 'spotifysvc', $_POST['spotifysvc']);
@@ -226,6 +238,9 @@ $autoClick = " onchange=\"autoClick('#btn-set-spotifysvc');\"";
 $_select['spotifysvc_on']  .= "<input type=\"radio\" name=\"spotifysvc\" id=\"toggle-spotifysvc-1\" value=\"1\" " . (($_SESSION['spotifysvc'] == '1') ? "checked=\"checked\"" : "") . $autoClick . ">\n";
 $_select['spotifysvc_off'] .= "<input type=\"radio\" name=\"spotifysvc\" id=\"toggle-spotifysvc-2\" value=\"0\" " . (($_SESSION['spotifysvc'] == '0') ? "checked=\"checked\"" : "") . $autoClick . ">\n";
 $_select['spotifyname'] = $_SESSION['spotifyname'];
+$_select['spotifyclientid'] = $_SESSION['spotifyclientid'];
+$_select['spotifyclientsecret'] = $_SESSION['spotifyclientsecret'];
+$_select['spotifyredirecturl'] = $_SESSION['spotifyredirecturl'];
 $autoClick = " onchange=\"autoClick('#btn-set-rsmafterspot');\" " . $_spotify_btn_disable;
 $_select['rsmafterspot_on'] .= "<input type=\"radio\" name=\"rsmafterspot\" id=\"toggle-rsmafterspot-1\" value=\"Yes\" " . (($_SESSION['rsmafterspot'] == 'Yes') ? "checked=\"checked\"" : "") . $autoClick . ">\n";
 $_select['rsmafterspot_off']  .= "<input type=\"radio\" name=\"rsmafterspot\" id=\"toggle-rsmafterspot-2\" value=\"No\" " . (($_SESSION['rsmafterspot'] == 'No') ? "checked=\"checked\"" : "") . $autoClick . ">\n";

@@ -283,6 +283,11 @@ gulp.task('cache', function(done){
         .on('end', done);
 });
 
+gulp.task('spotify', function(done) {
+        return gulp.src(pkg.app.src + '/spotify/**/*')
+                .pipe(gulp.dest(pkg.app.dest+'/spotify/'));
+});
+
 gulp.task('maps', function (done) {
     return gulp.src(pkg.app.cache+'/maps/**/*.map', {base:pkg.app.cache})
         .pipe($.if(!mode.force(), $.newer( { dest: pkg.app.dest}) ))
@@ -474,7 +479,7 @@ gulp.task('clean', function(done) {
         return $.del([pkg.app.dest,pkg.app.dist, pkg.app.src+'/index.html']);
 });
 
-gulp.task('build', gulp.series( [`sass`, `genindexdev`, `genindex`, `bundle`, `artwork`], function (done) {
+gulp.task('build', gulp.series( [`sass`, `genindexdev`, `genindex`, `bundle`, `artwork`, 'spotify'], function (done) {
     done();
 }));
 

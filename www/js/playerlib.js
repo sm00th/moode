@@ -532,11 +532,18 @@ function engineCmd() {
                     break;
                 case 'spotactive1':
                 case 'spotactive0':
-    				inpSrcIndicator(cmd[0],
-                        '<span id="inpsrc-msg-text">Spotify Active</span>' +
-                        '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
-                        receiversBtn() +
-                        audioInfoBtn());
+                    spotifyGetMetadata()
+                        .then((value) => inpSrcIndicator(cmd[0],
+                            '<span id="inpsrc-msg-text">Spotify Active</span>' +
+                            value.outerHTML +
+                            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
+                            receiversBtn() +
+                            audioInfoBtn()))
+                        .catch((err) => inpSrcIndicator(cmd[0],
+                            `<span id="inpsrc-msg-text">Spotify Active (err: ${err})</span>` +
+                            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
+                            receiversBtn() +
+                            audioInfoBtn()));
                     break;
                 case 'slactive1':
                 case 'slactive0':
@@ -1310,11 +1317,18 @@ function renderUI() {
     	}
     	// Spotify renderer
     	if (SESSION.json['spotactive'] == '1') {
-            inpSrcIndicator('spotactive1',
-            '<span id="inpsrc-msg-text">Spotify Active</span>' +
-            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
-            receiversBtn() +
-            audioInfoBtn());
+            spotifyGetMetadata()
+				.then((value) => inpSrcIndicator('spotactive1',
+					'<span id="inpsrc-msg-text">Spotify Active</span>' +
+					value.outerHTML +
+					'<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
+					receiversBtn() +
+					audioInfoBtn()))
+				.catch((err) => inpSrcIndicator('spotactive1',
+					`<span id="inpsrc-msg-text">Spotify Active (err: ${err})</span>` +
+					'<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
+					receiversBtn() +
+					audioInfoBtn()));
     	}
     	// Squeezelite renderer
     	if (SESSION.json['slactive'] == '1') {
