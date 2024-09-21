@@ -214,6 +214,9 @@ var lastYIQ = ''; // Last yiq value from setColors
 GLOBAL.userAgent = navigator.userAgent;
 GLOBAL.userAgent.indexOf('CrOS') != -1 ? GLOBAL.chromium = true : GLOBAL.chromium = false;
 
+// FIXME: better detection of local browser
+GLOBAL.isLocalBrowser = GLOBAL.chromium && location.host == "localhost";
+
 function debugLog(msg) {
 	if (SESSION.json['debuglog'] == '1') {
 		console.log(Date.now() + ': ' + msg);
@@ -489,6 +492,21 @@ function engineMpdLite() {
     });
 }
 
+function spotifyMeta(cmd) {
+    spotifyGetMetadata(!GLOBAL.isLocalBrowser)
+        .then((value) => inpSrcIndicator(cmd,
+            '<span id="inpsrc-msg-text">Spotify Active</span>' +
+            value.outerHTML +
+            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
+            receiversBtn() +
+            audioInfoBtn()))
+        .catch((err) => inpSrcIndicator(cmd,
+            `<span id="inpsrc-msg-text">Spotify Active (err: ${err})</span>` +
+            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
+            receiversBtn() +
+            audioInfoBtn()));
+}
+
 // Command engine
 function engineCmd() {
 	var cmd;
@@ -532,18 +550,7 @@ function engineCmd() {
                     break;
                 case 'spotactive1':
                 case 'spotactive0':
-                    spotifyGetMetadata()
-                        .then((value) => inpSrcIndicator(cmd[0],
-                            '<span id="inpsrc-msg-text">Spotify Active</span>' +
-                            value.outerHTML +
-                            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
-                            receiversBtn() +
-                            audioInfoBtn()))
-                        .catch((err) => inpSrcIndicator(cmd[0],
-                            `<span id="inpsrc-msg-text">Spotify Active (err: ${err})</span>` +
-                            '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
-                            receiversBtn() +
-                            audioInfoBtn()));
+                    spotifyMeta(cmd[0]);
                     break;
                 case 'slactive1':
                 case 'slactive0':
@@ -1317,18 +1324,7 @@ function renderUI() {
     	}
     	// Spotify renderer
     	if (SESSION.json['spotactive'] == '1') {
-            spotifyGetMetadata()
-				.then((value) => inpSrcIndicator('spotactive1',
-					'<span id="inpsrc-msg-text">Spotify Active</span>' +
-					value.outerHTML +
-					'<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
-					receiversBtn() +
-					audioInfoBtn()))
-				.catch((err) => inpSrcIndicator('spotactive1',
-					`<span id="inpsrc-msg-text">Spotify Active (err: ${err})</span>` +
-					'<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
-					receiversBtn() +
-					audioInfoBtn()));
+            spotifyMeta('spotactive1');
     	}
     	// Squeezelite renderer
     	if (SESSION.json['slactive'] == '1') {

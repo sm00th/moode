@@ -5,7 +5,7 @@ var client = {
     local_storage: "spotifyToken",
 };
 
-async function getToken() {
+async function getToken(can_do_auth) {
     const token_string = localStorage.getItem(client.local_storage);
     var token = null;
 
@@ -18,12 +18,16 @@ async function getToken() {
     }
 
     if (!token || !token.access) {
-        redirectToAuthCodeFlow(client);
+        if (can_do_auth) {
+            redirectToAuthCodeFlow(client);
+        }
     } else if (token.expires < Date.now()) {
         console.log("access token expired");
         if (!token.refresh) {
-            console.log("no refresh token, do auth");
-            redirectToAuthCodeFlow(client);
+            console.log("no refresh token");
+            if (can_do_auth) {
+                redirectToAuthCodeFlow(client);
+            }
         } else {
             token = await refreshToken(client, token);
             localStorage.setItem(client.local_storage, JSON.stringify(token));
@@ -70,9 +74,9 @@ function generateRandomString(length) {
     return text;
 }
 
-async function spotifyGetMetadata() {
+async function spotifyGetMetadata(can_do_auth) {
     const metadata_root = document.createElement("div");
-    let token = await getToken();
+    let token = await getToken(can_do_auth);
     if (token) {
         let playback_state = await fetchPlaybackState(token.access);
         if (playback_state) {
