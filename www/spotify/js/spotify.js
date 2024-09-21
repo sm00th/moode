@@ -90,7 +90,7 @@ async function spotifyGetMetadata(can_do_auth) {
         if (playback_state) {
             const coverart = playback_state.item.album.images[0];
             if (coverart) {
-                const coverart_img = new Image(coverart.height, coverart.width);
+                const coverart_img = new Image(200, 200);
                 coverart_img.src = coverart.url;
                 metadata_root.appendChild(coverart_img);
             }
