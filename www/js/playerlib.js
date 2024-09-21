@@ -493,6 +493,7 @@ function engineMpdLite() {
 }
 
 function spotifyMeta(cmd) {
+    const oldtoken = SESSION.json["spotifytoken"];
     spotifyGetMetadata(!GLOBAL.isLocalBrowser)
         .then((value) => inpSrcIndicator(cmd,
             '<span id="inpsrc-msg-text">Spotify Active</span>' +
@@ -505,6 +506,9 @@ function spotifyMeta(cmd) {
             '<button class="btn disconnect-renderer" data-job="spotifysvc">Disconnect</button>' +
             receiversBtn() +
             audioInfoBtn()));
+    if(oldtoken != SESSION.json["spotifytoken"]) {
+        $.post('command/cfg-table.php?cmd=upd_cfg_system', {'spotifytoken': SESSION.json['spotifytoken']});
+    }
 }
 
 // Command engine

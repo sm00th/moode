@@ -696,6 +696,7 @@ INSERT INTO cfg_system (id, param, value) VALUES (175, 'scnsaver_xmeta', 'Yes');
 INSERT INTO cfg_system (id, param, value) VALUES (176, 'spotifyclientid', '');
 INSERT INTO cfg_system (id, param, value) VALUES (177, 'spotifyclientsecret', '');
 INSERT INTO cfg_system (id, param, value) VALUES (178, 'spotifyredirecturl', '');
+INSERT INTO cfg_system (id, param, value) VALUES (179, 'spotifytoken', '');
 
 -- Table: cfg_theme
 CREATE TABLE cfg_theme (id INTEGER PRIMARY KEY, theme_name CHAR (32), tx_color CHAR (32), bg_color CHAR (32), mbg_color CHAR (32));
