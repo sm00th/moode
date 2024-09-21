@@ -16,7 +16,7 @@ if (code) {
             sessionStorage.removeItem("state");
             sessionStorage.removeItem("spotifyClient");
             const token = await getAccessToken(client, code);
-            localStorage.setItem(client.local_storage, JSON.stringify(token));
+            sessionStorage.setItem(token_storage, JSON.stringify(token));
         }
     }
 }

@@ -2,16 +2,24 @@ var client = {
     id: null,
     secret: null,
     redirect_url: null,
-    local_storage: "spotifyToken",
 };
 
+const token_storage = "spotifyToken";
+
 async function getToken(can_do_auth) {
-    const token_string = localStorage.getItem(client.local_storage);
     var token = null;
 
     client.id = SESSION.json["spotifyclientid"];
     client.secret = SESSION.json["spotifyclientsecret"];
     client.redirect_url = SESSION.json["spotifyredirecturl"];
+
+    const session_token = sessionStorage.getItem(token_storage);
+    if (session_token != null) {
+        SESSION.json["spotifytoken"] = session_token;
+        sessionStorage.removeItem(token_storage);
+    }
+
+    const token_string = SESSION.json["spotifytoken"];
 
     if (token_string) {
         token = JSON.parse(token_string);
@@ -30,7 +38,7 @@ async function getToken(can_do_auth) {
             }
         } else {
             token = await refreshToken(client, token);
-            localStorage.setItem(client.local_storage, JSON.stringify(token));
+            SESSION.json["spotifytoken"] = token;
         }
     }
 
